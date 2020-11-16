@@ -616,7 +616,7 @@ public class Client {
         // overrides.  Then, look at the attribute and use its type.
         MBeanAttributeInfo info =
             (MBeanAttributeInfo)getFeatureInfo(infos, parse.getCmd());
-        java.lang.reflect.Constructor c = Class.forName(
+        java.lang.reflect.Constructor c = getResolvedClass(
              info.getType()).getConstructor(new Class[] {String.class});
         Attribute a = new Attribute(parse.getCmd(),
             c.newInstance(new Object[] {parse.getArgs()[0]}));
@@ -651,7 +651,7 @@ public class Client {
                         : new Object[paraminfosLength];
                 for (int i = 0; i < paraminfosLength; i++) {
                     MBeanParameterInfo paraminfo = paraminfos[i];
-                    java.lang.reflect.Constructor c = Class.forName(
+                    java.lang.reflect.Constructor c = getResolvedClass(
                         paraminfo.getType()).getConstructor(
                             new Class[] {String.class});
                     params[i] =
@@ -664,6 +664,30 @@ public class Client {
         }
         return result;
     }
+    
+    private static Class getResolvedClass(String className) throws ClassNotFoundException {
+      // Check if the className is the name of a primitive. If this is the case, use their
+      // corresponding class.
+      if ("boolean".equals(className)) {
+         return Boolean.class;
+      } else if ("byte".equals(className)) {
+         return Byte.class;
+      } else if ("char".equals(className)) {
+         return Character.class;
+      } else if ("double".equals(className)) {
+         return Double.class;
+      } else if ("float".equals(className)) {
+         return Float.class;
+      } else if ("int".equals(className)) {
+         return Integer.class;
+      } else if ("long".equals(className)) {
+         return Long.class;
+      } else if ("short".equals(className)) {
+         return Short.class;
+      } else {
+         return Class.forName(className);
+      }
+   }
 
     protected String listOptions(MBeanServerConnection mbsc,
             ObjectInstance instance)
