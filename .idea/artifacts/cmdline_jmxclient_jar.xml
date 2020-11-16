@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="cmdline-jmxclient:jar">
+    <output-path>$PROJECT_DIR$/classes/artifacts/cmdline_jmxclient_jar</output-path>
+    <root id="archive" name="cmdline-jmxclient-0.10.3-patched.jar">
+      <element id="module-output" name="cmdline-jmxclient" />
+      <element id="library" level="module" name="conf" module-name="cmdline-jmxclient" />
+    </root>
+  </artifact>
+</component>
